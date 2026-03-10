@@ -5,423 +5,603 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Abhiram Duvvuri</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Dela+Gothic+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #07090f;
-      --surface: #0d1019;
-      --border: #1a1f2e;
-      --lime: #b6f542;
-      --blue: #4fa3ff;
-      --pink: #f554a8;
-      --text: #eef0f8;
-      --muted: #525870;
-      --font: 'Plus Jakarta Sans', sans-serif;
-      --head: 'Dela Gothic One', sans-serif;
-    }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: var(--font); overflow-x: hidden; font-size: 15px; line-height: 1.6; }
 
-    /* ── blobs ── */
-    .blob { position: fixed; border-radius: 50%; filter: blur(150px); opacity: .09; pointer-events: none; z-index: 0; }
-    .b1 { width: 700px; height: 700px; background: var(--lime); top: -200px; left: -200px; animation: drift 22s ease-in-out infinite alternate; }
-    .b2 { width: 550px; height: 550px; background: var(--blue); bottom: -150px; right: -150px; animation: drift 17s ease-in-out 3s infinite alternate-reverse; }
-    .b3 { width: 350px; height: 350px; background: var(--pink); top: 40%; left: 45%; animation: drift 19s ease-in-out 7s infinite alternate; }
-    @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(60px, 40px) scale(1.12); } }
+    :root {
+      --bg:      #131210;
+      --paper:   #1a1916;
+      --rule:    #2c2a26;
+      --orange:  #f97316;
+      --orange2: #fb923c;
+      --cream:   #e8e4da;
+      --muted:   #6b6760;
+      --dim:     #3a3733;
+      --mono:    'IBM Plex Mono', monospace;
+      --sans:    'IBM Plex Sans', sans-serif;
+      --display: 'Bebas Neue', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: var(--sans);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ── horizontal rules everywhere ── */
+    hr { border: none; border-top: 1px solid var(--rule); }
 
     /* ── nav ── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      position: sticky; top: 0; z-index: 50;
+      background: var(--bg);
+      border-bottom: 1px solid var(--rule);
       display: flex; align-items: center; justify-content: space-between;
-      padding: 16px 56px;
-      background: rgba(7,9,15,.75);
-      backdrop-filter: blur(24px);
-      border-bottom: 1px solid var(--border);
+      padding: 0 48px; height: 48px;
     }
-    .logo {
-      font-family: var(--head); font-size: 20px;
-      background: linear-gradient(90deg, var(--lime), var(--blue));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    .nav-name {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--orange);
+      letter-spacing: .02em;
     }
-    .nav-links { list-style: none; display: flex; gap: 32px; }
-    .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: .02em; transition: color .2s; }
-    .nav-links a:hover { color: var(--text); }
+    .nav-links { display: flex; gap: 0; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 0 16px;
+      height: 48px;
+      display: flex; align-items: center;
+      border-left: 1px solid var(--rule);
+      transition: color .15s, background .15s;
+    }
+    .nav-links a:hover { color: var(--cream); background: var(--paper); }
+    .nav-links a.gh { color: var(--orange); }
+    .nav-links a.gh:hover { color: var(--orange2); }
 
     /* ── hero ── */
     #hero {
-      position: relative; z-index: 1;
-      min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
-      padding: 130px 56px 100px; max-width: 1200px; margin: 0 auto;
+      padding: 64px 48px 56px;
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: end;
     }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 10px;
-      font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
-      color: var(--lime); margin-bottom: 28px;
-      opacity: 0; animation: up .5s .1s forwards;
+    .hero-left {}
+    .hero-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: .1em;
+      margin-bottom: 16px;
     }
-    .pulse { width: 8px; height: 8px; background: var(--lime); border-radius: 50%; flex-shrink: 0; animation: glow 2s infinite; }
-    @keyframes glow { 0%,100% { box-shadow: 0 0 0 0 rgba(182,245,66,.5); } 50% { box-shadow: 0 0 0 8px rgba(182,245,66,0); } }
     h1 {
-      font-family: var(--head);
-      font-size: clamp(54px, 9vw, 116px);
-      line-height: .98; letter-spacing: -.02em;
-      opacity: 0; animation: up .65s .2s forwards;
+      font-family: var(--display);
+      font-size: clamp(72px, 11vw, 148px);
+      line-height: .92;
+      letter-spacing: .01em;
+      color: var(--cream);
     }
-    h1 .grad {
-      background: linear-gradient(135deg, var(--lime) 0%, var(--blue) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    h1 .o { color: var(--orange); }
+    .hero-desc {
+      margin-top: 24px;
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.75;
     }
-    .hero-sub {
-      margin-top: 24px; font-size: 17px; color: var(--muted);
-      max-width: 540px; line-height: 1.7;
-      opacity: 0; animation: up .6s .35s forwards;
-    }
+    .hero-desc strong { color: var(--cream); font-weight: 600; }
     .hero-btns {
-      display: flex; gap: 12px; flex-wrap: wrap; margin-top: 44px;
-      opacity: 0; animation: up .5s .5s forwards;
+      margin-top: 32px;
+      display: flex; gap: 10px;
     }
     .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 13px 26px; font-family: var(--font); font-size: 13px; font-weight: 700;
-      letter-spacing: .03em; text-decoration: none; cursor: pointer;
-      border: none; border-radius: 10px; transition: all .2s;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 10px 20px;
+      border: 1px solid;
+      transition: all .15s;
+      display: inline-flex; align-items: center; gap: 7px;
     }
-    .btn-lime { background: var(--lime); color: #07090f; }
-    .btn-lime:hover { background: #cbff5a; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(182,245,66,.25); }
-    .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
-    .btn-ghost:hover { border-color: var(--muted); transform: translateY(-2px); }
+    .btn-fill { background: var(--orange); color: #131210; border-color: var(--orange); }
+    .btn-fill:hover { background: var(--orange2); border-color: var(--orange2); }
+    .btn-line { background: transparent; color: var(--muted); border-color: var(--dim); }
+    .btn-line:hover { color: var(--cream); border-color: var(--muted); }
 
-    /* ticker */
-    .ticker-wrap {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      border-top: 1px solid var(--border); overflow: hidden; padding: 13px 0;
-      background: rgba(7,9,15,.5);
-      opacity: 0; animation: fadein .5s 1s forwards;
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      padding-bottom: 4px;
     }
-    .ticker-track {
-      display: flex; gap: 36px; width: max-content;
-      animation: scroll 28s linear infinite;
-      font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+    .stat-block {
+      text-align: right;
+      border-top: 1px solid var(--rule);
+      padding-top: 12px;
+      margin-top: 8px;
+      width: 100%;
     }
-    .ticker-track em { color: var(--lime); font-style: normal; }
-    @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .stat-block:first-child { border-top: none; margin-top: 0; padding-top: 0; }
+    .stat-n {
+      font-family: var(--display);
+      font-size: 52px;
+      line-height: 1;
+      color: var(--orange);
+    }
+    .stat-l {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
 
-    /* ── divider ── */
-    .divider { width: 100%; height: 1px; background: var(--border); }
+    /* ── section wrapper ── */
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 48px; }
 
-    /* ── sections ── */
-    .section { position: relative; z-index: 1; padding: 88px 56px; max-width: 1200px; margin: 0 auto; }
-    .s-label { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--lime); margin-bottom: 10px; }
-    .s-title { font-family: var(--head); font-size: clamp(30px, 4.5vw, 56px); line-height: 1.05; margin-bottom: 44px; }
+    /* ── section label ── */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 32px 0 28px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 32px;
+    }
+    .section-label span {
+      font-family: var(--display);
+      font-size: 13px;
+      letter-spacing: .14em;
+      color: var(--muted);
+    }
+    .section-label .num {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--orange);
+      border: 1px solid var(--orange);
+      padding: 1px 7px;
+    }
 
     /* ── about ── */
-    .about-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 64px; align-items: start; }
-    .about-body p { color: var(--muted); line-height: 1.85; margin-bottom: 14px; font-size: 15px; }
-    .about-body strong { color: var(--text); }
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
-    .chip {
-      font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 100px;
-      border: 1px solid var(--border); color: var(--muted); transition: all .2s; cursor: default;
+    #about { border-bottom: 1px solid var(--rule); padding-bottom: 56px; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+    .about-body { font-size: 14px; color: var(--muted); line-height: 1.85; }
+    .about-body p { margin-bottom: 12px; }
+    .about-body p:last-child { margin-bottom: 0; }
+    .about-body strong { color: var(--cream); }
+    .stack {
+      display: flex; flex-direction: column; gap: 0;
+      border: 1px solid var(--rule);
     }
-    .chip:hover { border-color: var(--lime); color: var(--lime); background: rgba(182,245,66,.06); }
-    .stats { display: flex; flex-direction: column; gap: 14px; }
-    .stat-card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
-      padding: 22px 26px; display: flex; align-items: center; gap: 20px;
-      transition: border-color .25s;
+    .stack-row-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--rule);
+      font-family: var(--mono);
+      font-size: 12px;
     }
-    .stat-card:hover { border-color: rgba(182,245,66,.3); }
-    .stat-num { font-family: var(--head); font-size: 38px; color: var(--lime); line-height: 1; min-width: 60px; }
-    .stat-text { font-size: 13px; color: var(--muted); font-weight: 500; }
+    .stack-row-item:last-child { border-bottom: none; }
+    .stack-name { color: var(--cream); }
+    .stack-use { color: var(--muted); font-size: 11px; }
+    .stack-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+    }
+    .dot-js   { background: #f1e05a; }
+    .dot-py   { background: #3572A5; }
+    .dot-cpp  { background: #f34b7d; }
+    .dot-html { background: #e34c26; }
+    .dot-other { background: var(--muted); }
 
-    /* ── projects grid ── */
-    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 18px; }
-    .card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-      padding: 28px; display: flex; flex-direction: column; gap: 14px;
-      transition: border-color .25s, transform .25s, box-shadow .25s;
-      position: relative; overflow: hidden;
+    /* ── filters ── */
+    .filters {
+      display: flex; gap: 0;
+      border: 1px solid var(--rule);
+      width: fit-content;
+      margin-bottom: 24px;
     }
-    .card::after {
-      content: ''; position: absolute; inset: 0; border-radius: 16px;
-      background: radial-gradient(circle at top left, rgba(182,245,66,.06) 0%, transparent 65%);
-      opacity: 0; transition: opacity .3s;
+    .f-btn {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      border-right: 1px solid var(--rule);
+      transition: all .15s;
     }
-    .card:hover { border-color: rgba(182,245,66,.35); transform: translateY(-5px); box-shadow: 0 16px 48px rgba(0,0,0,.4); }
-    .card:hover::after { opacity: 1; }
-    .card-icon { font-size: 30px; line-height: 1; position: relative; z-index: 1; }
-    .card-title { font-family: var(--head); font-size: 20px; color: var(--text); position: relative; z-index: 1; }
-    .card-desc { font-size: 13px; color: var(--muted); line-height: 1.75; flex: 1; position: relative; z-index: 1; }
-    .card-stack { display: flex; flex-wrap: wrap; gap: 6px; position: relative; z-index: 1; }
-    .tag {
-      font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-      padding: 3px 10px; border-radius: 100px;
-      background: rgba(79,163,255,.1); color: var(--blue); border: 1px solid rgba(79,163,255,.2);
+    .f-btn:last-child { border-right: none; }
+    .f-btn:hover { background: var(--paper); color: var(--cream); }
+    .f-btn.on { background: var(--orange); color: #131210; }
+
+    /* ── project table ── */
+    .proj-table { width: 100%; border-collapse: collapse; }
+    .proj-table thead tr {
+      border-bottom: 1px solid var(--rule);
     }
-    .card-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 2px; position: relative; z-index: 1; }
-    .clink {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 12px; font-weight: 600; text-decoration: none;
-      padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border);
-      color: var(--muted); transition: all .2s;
+    .proj-table th {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+      padding: 0 0 10px;
+      text-align: left;
     }
-    .clink:hover { border-color: var(--lime); color: var(--lime); }
-    .clink.live { background: var(--lime); color: #07090f; border-color: var(--lime); }
-    .clink.live:hover { background: #cbff5a; border-color: #cbff5a; box-shadow: 0 4px 20px rgba(182,245,66,.3); }
-    .clink svg { width: 11px; height: 11px; flex-shrink: 0; }
+    .proj-table th:last-child { text-align: right; }
+    .proj-table tbody tr {
+      border-bottom: 1px solid var(--rule);
+      transition: background .12s;
+    }
+    .proj-table tbody tr:hover { background: var(--paper); }
+    .proj-table tbody tr:last-child { border-bottom: none; }
+    .proj-table td {
+      padding: 14px 0;
+      vertical-align: middle;
+    }
+    .proj-table td + td { padding-left: 20px; }
+
+    .td-name {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--cream);
+      white-space: nowrap;
+    }
+    .td-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .td-lang {
+      white-space: nowrap;
+      display: flex; align-items: center; gap: 7px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .td-links {
+      display: flex; justify-content: flex-end; gap: 6px; white-space: nowrap;
+    }
+    .tlink {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 4px 10px;
+      border: 1px solid var(--dim);
+      color: var(--muted);
+      transition: all .15s;
+    }
+    .tlink:hover { border-color: var(--muted); color: var(--cream); }
+    .tlink.live {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+    .tlink.live:hover { background: var(--orange); color: #131210; }
 
     /* ── footer ── */
     footer {
-      position: relative; z-index: 1;
-      border-top: 1px solid var(--border);
-      padding: 26px 56px;
+      border-top: 1px solid var(--rule);
+      padding: 20px 48px;
       display: flex; align-items: center; justify-content: space-between;
-      font-size: 12px; color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
     }
-    footer a { color: var(--lime); text-decoration: none; font-weight: 600; }
-    footer a:hover { text-decoration: underline; }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--orange); }
 
-    /* ── animations ── */
-    @keyframes up { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
-    @keyframes fadein { to { opacity: 1; } }
-    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .65s ease, transform .65s ease; }
-    .reveal.in { opacity: 1; transform: none; }
-
-    @media (max-width: 768px) {
-      nav { padding: 14px 20px; }
-      .nav-links { display: none; }
-      #hero, .section { padding-left: 20px; padding-right: 20px; }
-      .about-grid { grid-template-columns: 1fr; gap: 40px; }
-      footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px; }
+    @media (max-width: 720px) {
+      nav { padding: 0 20px; }
+      .nav-links a { padding: 0 10px; font-size: 10px; }
+      #hero { grid-template-columns: 1fr; padding: 40px 20px; }
+      .hero-right { flex-direction: row; align-items: center; justify-content: flex-start; }
+      .stat-block { border-top: none; padding-top: 0; margin-top: 0; border-left: 1px solid var(--rule); padding-left: 20px; margin-left: 20px; text-align: left; }
+      .stat-block:first-child { border-left: none; padding-left: 0; margin-left: 0; }
+      .wrap { padding: 0 20px; }
+      .about-grid { grid-template-columns: 1fr; }
+      .td-desc { display: none; }
+      footer { padding: 16px 20px; flex-direction: column; gap: 6px; }
     }
   </style>
 </head>
 <body>
 
-<div class="blob b1"></div>
-<div class="blob b2"></div>
-<div class="blob b3"></div>
-
 <!-- NAV -->
 <nav>
-  <div class="logo">AD.</div>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="https://github.com/GlitchNinjaX" target="_blank">GitHub ↗</a></li>
-  </ul>
+  <span class="nav-name">abhiram duvvuri</span>
+  <div class="nav-links">
+    <a href="#about">about</a>
+    <a href="#projects">projects</a>
+    <a href="https://github.com/GlitchNinjaX" target="_blank" class="gh">github ↗</a>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
-  <div class="eyebrow"><span class="pulse"></span> High School Freshman &bull; Self-Taught Dev</div>
-  <h1>Abhiram<br><span class="grad">Duvvuri.</span></h1>
-  <p class="hero-sub">I'm a 9th grader who loves building things with code. I make websites and web apps from scratch — all HTML, CSS &amp; JavaScript, all me.</p>
-  <div class="hero-btns">
-    <a href="#projects" class="btn btn-lime">See My Projects ↓</a>
-    <a href="https://github.com/GlitchNinjaX" target="_blank" class="btn btn-ghost">
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-      GitHub Profile
-    </a>
+  <div class="hero-left">
+    <div class="hero-num">// 001</div>
+    <h1>ABHIRAM<br>DUVVURI</h1>
+    <p class="hero-desc">
+      High school freshman building stuff with code.
+      <strong>JavaScript</strong> for the web, <strong>Python</strong> for games,
+      <strong>C++</strong> for when I want a challenge.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn btn-fill">Projects ↓</a>
+      <a href="https://github.com/GlitchNinjaX" target="_blank" class="btn btn-line">GitHub ↗</a>
+    </div>
   </div>
-  <div class="ticker-wrap">
-    <div class="ticker-track">
-      <span>HTML &amp; CSS</span><em>✦</em><span>JavaScript</span><em>✦</em><span>Web APIs</span><em>✦</em>
-      <span>GitHub Pages</span><em>✦</em><span>Self-Taught</span><em>✦</em><span>9th Grade</span><em>✦</em>
-      <span>Open Source</span><em>✦</em><span>Always Learning</span><em>✦</em>
-      <span>HTML &amp; CSS</span><em>✦</em><span>JavaScript</span><em>✦</em><span>Web APIs</span><em>✦</em>
-      <span>GitHub Pages</span><em>✦</em><span>Self-Taught</span><em>✦</em><span>9th Grade</span><em>✦</em>
-      <span>Open Source</span><em>✦</em><span>Always Learning</span><em>✦</em>
+  <div class="hero-right">
+    <div class="stat-block">
+      <div class="stat-n">15</div>
+      <div class="stat-l">repos</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-n">3</div>
+      <div class="stat-l">languages</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-n">9</div>
+      <div class="stat-l">grade</div>
     </div>
   </div>
 </section>
-
-<div class="divider"></div>
 
 <!-- ABOUT -->
-<section id="about" class="section">
-  <p class="s-label reveal">About Me</p>
-  <h2 class="s-title reveal">Who I am.</h2>
-  <div class="about-grid">
-    <div class="about-body reveal">
-      <p>Hey! I'm Abhiram — a high school freshman who got into coding and kind of never stopped. I build websites and web apps using <strong>HTML, CSS, and JavaScript</strong>, and I love making things that are actually useful.</p>
-      <p>Every project I've made started as something I wanted to exist. A typing speed test, a customizable Pomodoro timer, a full dictionary tool — I build stuff I'd use myself.</p>
-      <p>I'm always experimenting and picking up new skills. Check out what I've built below!</p>
-      <div class="chips">
-        <span class="chip">HTML</span>
-        <span class="chip">CSS</span>
-        <span class="chip">JavaScript</span>
-        <span class="chip">REST APIs</span>
-        <span class="chip">GitHub</span>
-        <span class="chip">GitHub Pages</span>
-      </div>
+<section id="about">
+  <div class="wrap">
+    <div class="section-label">
+      <span class="num">01</span>
+      <span>About</span>
     </div>
-    <div class="stats reveal">
-      <div class="stat-card">
-        <div class="stat-num">14</div>
-        <div class="stat-text">Public repositories on GitHub</div>
+    <div class="about-grid">
+      <div class="about-body">
+        <p>I'm a 9th grader who got into coding and kind of never stopped. I started with web stuff — HTML, CSS, JavaScript — then picked up Python to make games with pygame, then C++ because I wanted to actually understand what's happening under the hood.</p>
+        <p>Most of my projects are things I actually wanted to use or build. I like making things that work and look decent doing it.</p>
+        <p>Still learning, always building.</p>
       </div>
-      <div class="stat-card">
-        <div class="stat-num">6</div>
-        <div class="stat-text">Live deployed websites</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">9th</div>
-        <div class="stat-text">Grade — just getting started</div>
+      <div class="stack">
+        <div class="stack-row-item">
+          <span class="stack-name">JavaScript</span>
+          <span class="stack-use">web apps &amp; APIs</span>
+          <span class="stack-dot dot-js"></span>
+        </div>
+        <div class="stack-row-item">
+          <span class="stack-name">Python</span>
+          <span class="stack-use">games &amp; scripts</span>
+          <span class="stack-dot dot-py"></span>
+        </div>
+        <div class="stack-row-item">
+          <span class="stack-name">C++</span>
+          <span class="stack-use">tools &amp; low-level</span>
+          <span class="stack-dot dot-cpp"></span>
+        </div>
+        <div class="stack-row-item">
+          <span class="stack-name">HTML / CSS</span>
+          <span class="stack-use">all the web projects</span>
+          <span class="stack-dot dot-html"></span>
+        </div>
+        <div class="stack-row-item">
+          <span class="stack-name">pygame-ce</span>
+          <span class="stack-use">3 games built</span>
+          <span class="stack-dot dot-py"></span>
+        </div>
+        <div class="stack-row-item">
+          <span class="stack-name">Crypto++</span>
+          <span class="stack-use">file encryption</span>
+          <span class="stack-dot dot-cpp"></span>
+        </div>
       </div>
     </div>
   </div>
 </section>
-
-<div class="divider"></div>
 
 <!-- PROJECTS -->
-<section id="projects" class="section">
-  <p class="s-label reveal">My Work</p>
-  <h2 class="s-title reveal">Projects.</h2>
-  <div class="projects-grid">
-
-    <!-- QuoteType — live site -->
-    <div class="card reveal">
-      <div class="card-icon">⌨️</div>
-      <div class="card-title">QuoteType</div>
-      <div class="card-desc">A typing speed test that fetches random quotes from an API and measures your WPM and accuracy in real time. How fast can you type?</div>
-      <div class="card-stack">
-        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">API</span>
-      </div>
-      <div class="card-links">
-        <a href="https://glitchninjax.github.io/quote-type/" target="_blank" class="clink live">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Live Site
-        </a>
-        <a href="https://github.com/GlitchNinjaX/quote-type" target="_blank" class="clink">
-          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          Repo
-        </a>
-      </div>
+<section id="projects" style="padding-bottom: 64px;">
+  <div class="wrap">
+    <div class="section-label">
+      <span class="num">02</span>
+      <span>Projects</span>
     </div>
 
-    <!-- Expense Tracker — live site -->
-    <div class="card reveal">
-      <div class="card-icon">💸</div>
-      <div class="card-title">Expense Tracker</div>
-      <div class="card-desc">Track your spending by category, amount, and date. Entries get added to a live table with a running total so you always know where your money went.</div>
-      <div class="card-stack">
-        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span>
-      </div>
-      <div class="card-links">
-        <a href="https://glitchninjax.github.io/expense-tracker/" target="_blank" class="clink live">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Live Site
-        </a>
-        <a href="https://github.com/GlitchNinjaX/expense-tracker" target="_blank" class="clink">
-          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          Repo
-        </a>
-      </div>
+    <div class="filters">
+      <button class="f-btn on" onclick="filter('all',this)">All (15)</button>
+      <button class="f-btn" onclick="filter('js',this)">JavaScript</button>
+      <button class="f-btn" onclick="filter('py',this)">Python</button>
+      <button class="f-btn" onclick="filter('cpp',this)">C++</button>
     </div>
 
-    <!-- Weather Website — repo only -->
-    <div class="card reveal">
-      <div class="card-icon">🌤️</div>
-      <div class="card-title">Weather Website</div>
-      <div class="card-desc">Search any city in the world and get live weather data — current temp, feels like, humidity, and a weather description, all powered by the OpenWeatherMap API.</div>
-      <div class="card-stack">
-        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">API</span>
-      </div>
-      <div class="card-links">
-        <a href="https://github.com/GlitchNinjaX/weather-website" target="_blank" class="clink">
-          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          View Repo
-        </a>
-      </div>
-    </div>
+    <table class="proj-table">
+      <thead>
+        <tr>
+          <th style="width:180px">Name</th>
+          <th>Description</th>
+          <th style="width:120px">Language</th>
+          <th style="width:160px">Links</th>
+        </tr>
+      </thead>
+      <tbody id="proj-body">
 
-    <!-- Pomodoro Timer — live site -->
-    <div class="card reveal">
-      <div class="card-icon">🍅</div>
-      <div class="card-title">Pomodoro Timer</div>
-      <div class="card-desc">A fully customizable Pomodoro productivity timer. Set your own work and break durations, and pick from 3 different ringtones to keep you on track.</div>
-      <div class="card-stack">
-        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Audio</span>
-      </div>
-      <div class="card-links">
-        <a href="https://glitchninjax.github.io/pomodoro-timer/" target="_blank" class="clink live">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Live Site
-        </a>
-        <a href="https://github.com/GlitchNinjaX/pomodoro-timer" target="_blank" class="clink">
-          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          Repo
-        </a>
-      </div>
-    </div>
+        <tr data-lang="js">
+          <td class="td-name">quote-type</td>
+          <td class="td-desc">Typing speed test — random quotes from an API, tracks WPM and accuracy live.</td>
+          <td><div class="td-lang"><span class="stack-dot dot-js"></span>JavaScript</div></td>
+          <td><div class="td-links">
+            <a href="https://glitchninjax.github.io/quote-type/" target="_blank" class="tlink live">Live</a>
+            <a href="https://github.com/GlitchNinjaX/quote-type" target="_blank" class="tlink">Repo</a>
+          </div></td>
+        </tr>
 
-    <!-- Password Generator — live site -->
-    <div class="card reveal">
-      <div class="card-icon">🔐</div>
-      <div class="card-title">Password Generator</div>
-      <div class="card-desc">Generate strong, secure passwords with full customization — choose length, include/exclude uppercase, lowercase, numbers, symbols, and even specific characters.</div>
-      <div class="card-stack">
-        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span>
-      </div>
-      <div class="card-links">
-        <a href="https://glitchninjax.github.io/password-generator/" target="_blank" class="clink live">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Live Site
-        </a>
-        <a href="https://github.com/GlitchNinjaX/password-generator" target="_blank" class="clink">
-          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          Repo
-        </a>
-      </div>
-    </div>
+        <tr data-lang="js">
+          <td class="td-name">pomodoro-timer</td>
+          <td class="td-desc">Customizable Pomodoro timer with adjustable work/break times and 3 ringtones.</td>
+          <td><div class="td-lang"><span class="stack-dot dot-js"></span>JavaScript</div></td>
+          <td><div class="td-links">
+            <a href="https://glitchninjax.github.io/pomodoro-timer/" target="_blank" class="tlink live">Live</a>
+            <a href="https://github.com/GlitchNinjaX/pomodoro-timer" target="_blank" class="tlink">Repo</a>
+          </div></td>
+        </tr>
 
-    <!-- Dictionary Website — live site -->
-    <div class="card reveal">
-      <div class="card-icon">📖</div>
-      <div class="card-title">Dictionary Website</div>
-      <div class="card-desc">Look up any word and instantly get definitions, audio pronunciation, synonyms, and antonyms — all pulled from a free dictionary API.</div>
-      <div class="card-stack">
-        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">API</span>
-      </div>
-      <div class="card-links">
-        <a href="https://glitchninjax.github.io/dictionary-website/" target="_blank" class="clink live">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Live Site
-        </a>
-        <a href="https://github.com/GlitchNinjaX/dictionary-website" target="_blank" class="clink">
-          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          Repo
-        </a>
-      </div>
-    </div>
+        <tr data-lang="js">
+          <td class="td-name">password-generator</td>
+          <td class="td-desc">Generates secure passwords. Customize length, character sets, and exclusions.</td>
+          <td><div class="td-lang"><span class="stack-dot dot-js"></span>JavaScript</div></td>
+          <td><div class="td-links">
+            <a href="https://glitchninjax.github.io/password-generator/" target="_blank" class="tlink live">Live</a>
+            <a href="https://github.com/GlitchNinjaX/password-generator" target="_blank" class="tlink">Repo</a>
+          </div></td>
+        </tr>
 
+        <tr data-lang="js">
+          <td class="td-name">dictionary-website</td>
+          <td class="td-desc">Look up any word — definitions, audio, synonyms, and antonyms from a free API.</td>
+          <td><div class="td-lang"><span class="stack-dot dot-js"></span>JavaScript</div></td>
+          <td><div class="td-links">
+            <a href="https://glitchninjax.github.io/dictionary-website/" target="_blank" class="tlink live">Live</a>
+            <a href="https://github.com/GlitchNinjaX/dictionary-website" target="_blank" class="tlink">Repo</a>
+          </div></td>
+        </tr>
+
+        <tr data-lang="js">
+          <td class="td-name">expense-tracker</td>
+          <td class="td-desc">Track spending by category, amount, and date with a running total table.</td>
+          <td><div class="td-lang"><span class="stack-dot dot-js"></span>JavaScript</div></td>
+          <td><div class="td-links">
+            <a href="https://glitchninjax.github.io/expense-tracker/" target="_blank" class="tlink live">Live</a>
+            <a href="https://github.com/GlitchNinjaX/expense-tracker" target="_blank" class="tlink">Repo</a>
+          </div></td>
+        </tr>
+
+        <tr data-lang="js">
+          <td class="td-name">weather-website</td>
+          <td class="td-desc">Search any city for live weather — temp, humidity, and description via OpenWeatherMap.</td>
+          <td><div class="td-lang"><span class="stack-dot dot-js"></span>JavaScript</div></td>
+          <td><div class="td-links">
+            <a href="https://github.com/GlitchNinjaX/weather-website" target="_blank" class="tlink">Repo</a>
+          </div></td>
+        </tr>
+
+        <tr data-lang="py">
+          <td class="td-name">snake-game</td>
+          <td class="td-desc">Classic Snake built with pygame-ce.</td>
+          <td><div class="td-lang"><span class="stack-dot dot-py"></span>Python</div></td>
+          <td><div class="td-links">
+            <a href="https://github.com/GlitchNinjaX/snake-game" target="_blank" class="tlink">Repo</a>
+          </div></td>
+        </tr>
+
+        <tr data-lang="py">
+          <td class="td-name">space-shooter</td>
+          <td class="td-desc">2D space shooter game built with pygame-ce.</td>
+          <td><div class="td-lang"><span class="stack-dot dot-py"></span>Python</div></td>
+          <td><div class="td-links">
+            <a href="https://github.com/GlitchNinjaX/space-shooter" target="_blank" class="tlink">Repo</a>
+          </div></td>
+        </tr>
+
+        <tr data-lang="py">
+          <td class="td-name">cookie-clicker</td>
+          <td class="td-desc">Idle cookie clicker game built with pygame-ce.</td>
+          <td><div class="td-lang"><span class="stack-dot dot-py"></span>Python</div></td>
+          <td><div class="td-links">
+            <a href="https://github.com/GlitchNinjaX/cookie-clicker" target="_blank" class="tlink">Repo</a>
+          </div></td>
+        </tr>
+
+        <tr data-lang="py">
+          <td class="td-name">shape-calculator</td>
+          <td class="td-desc">CLI tool that calculates area and perimeter for various shapes.</td>
+          <td><div class="td-lang"><span class="stack-dot dot-py"></span>Python</div></td>
+          <td><div class="td-links">
+            <a href="https://github.com/GlitchNinjaX/shape-calculator" target="_blank" class="tlink">Repo</a>
+          </div></td>
+        </tr>
+
+        <tr data-lang="cpp">
+          <td class="td-name">rpg-game</td>
+          <td class="td-desc">Text-based RPG game written in C++.</td>
+          <td><div class="td-lang"><span class="stack-dot dot-cpp"></span>C++</div></td>
+          <td><div class="td-links">
+            <a href="https://github.com/GlitchNinjaX/rpg-game" target="_blank" class="tlink">Repo</a>
+          </div></td>
+        </tr>
+
+        <tr data-lang="cpp">
+          <td class="td-name">file-organizer</td>
+          <td class="td-desc">Automatically sorts files into folders by file type using C++.</td>
+          <td><div class="td-lang"><span class="stack-dot dot-cpp"></span>C++</div></td>
+          <td><div class="td-links">
+            <a href="https://github.com/GlitchNinjaX/file-organizer" target="_blank" class="tlink">Repo</a>
+          </div></td>
+        </tr>
+
+        <tr data-lang="cpp">
+          <td class="td-name">file-cryptography</td>
+          <td class="td-desc">File encryption and decryption using C++ and the Crypto++ library.</td>
+          <td><div class="td-lang"><span class="stack-dot dot-cpp"></span>C++</div></td>
+          <td><div class="td-links">
+            <a href="https://github.com/GlitchNinjaX/file-cryptography" target="_blank" class="tlink">Repo</a>
+          </div></td>
+        </tr>
+
+        <tr data-lang="cpp">
+          <td class="td-name">tic-tac-toe</td>
+          <td class="td-desc">Tic-Tac-Toe in the terminal, written in C++.</td>
+          <td><div class="td-lang"><span class="stack-dot dot-cpp"></span>C++</div></td>
+          <td><div class="td-links">
+            <a href="https://github.com/GlitchNinjaX/tic-tac-toe" target="_blank" class="tlink">Repo</a>
+          </div></td>
+        </tr>
+
+        <tr data-lang="html">
+          <td class="td-name">glitchninjax.github.io</td>
+          <td class="td-desc">This portfolio — my personal site.</td>
+          <td><div class="td-lang"><span class="stack-dot dot-html"></span>HTML</div></td>
+          <td><div class="td-links">
+            <a href="https://glitchninjax.github.io" target="_blank" class="tlink live">Live</a>
+            <a href="https://github.com/GlitchNinjaX/glitchninjax.github.io" target="_blank" class="tlink">Repo</a>
+          </div></td>
+        </tr>
+
+      </tbody>
+    </table>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
-  <span>Built by <a href="https://github.com/GlitchNinjaX" target="_blank">Abhiram Duvvuri</a> &mdash; GlitchNinjaX</span>
-  <span>HTML &bull; CSS &bull; JavaScript</span>
+  <span>abhiram duvvuri &mdash; <a href="https://github.com/GlitchNinjaX" target="_blank">@GlitchNinjaX</a></span>
+  <span>15 repos &amp; counting</span>
 </footer>
 
 <script>
-  // Scroll reveal
-  const els = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
-  }, { threshold: 0.1 });
-  els.forEach(el => obs.observe(el));
-
-  // Nav active links on scroll
-  const sections = document.querySelectorAll('section[id]');
-  const navAs = document.querySelectorAll('.nav-links a');
-  window.addEventListener('scroll', () => {
-    let cur = '';
-    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
-    navAs.forEach(a => { a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--text)' : ''; });
-  });
+  function filter(lang, btn) {
+    document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    document.querySelectorAll('#proj-body tr').forEach(row => {
+      row.style.display = (lang === 'all' || row.dataset.lang === lang) ? '' : 'none';
+    });
+  }
 </script>
+
 </body>
 </html>
