@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Abhiram Duvvuri</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Dela+Gothic+One&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #07090f;
+      --surface: #0d1019;
+      --border: #1a1f2e;
+      --lime: #b6f542;
+      --blue: #4fa3ff;
+      --pink: #f554a8;
+      --text: #eef0f8;
+      --muted: #525870;
+      --font: 'Plus Jakarta Sans', sans-serif;
+      --head: 'Dela Gothic One', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font); overflow-x: hidden; font-size: 15px; line-height: 1.6; }
+
+    /* ── blobs ── */
+    .blob { position: fixed; border-radius: 50%; filter: blur(150px); opacity: .09; pointer-events: none; z-index: 0; }
+    .b1 { width: 700px; height: 700px; background: var(--lime); top: -200px; left: -200px; animation: drift 22s ease-in-out infinite alternate; }
+    .b2 { width: 550px; height: 550px; background: var(--blue); bottom: -150px; right: -150px; animation: drift 17s ease-in-out 3s infinite alternate-reverse; }
+    .b3 { width: 350px; height: 350px; background: var(--pink); top: 40%; left: 45%; animation: drift 19s ease-in-out 7s infinite alternate; }
+    @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(60px, 40px) scale(1.12); } }
+
+    /* ── nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 56px;
+      background: rgba(7,9,15,.75);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: var(--head); font-size: 20px;
+      background: linear-gradient(90deg, var(--lime), var(--blue));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { list-style: none; display: flex; gap: 32px; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: .02em; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── hero ── */
+    #hero {
+      position: relative; z-index: 1;
+      min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+      padding: 130px 56px 100px; max-width: 1200px; margin: 0 auto;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--lime); margin-bottom: 28px;
+      opacity: 0; animation: up .5s .1s forwards;
+    }
+    .pulse { width: 8px; height: 8px; background: var(--lime); border-radius: 50%; flex-shrink: 0; animation: glow 2s infinite; }
+    @keyframes glow { 0%,100% { box-shadow: 0 0 0 0 rgba(182,245,66,.5); } 50% { box-shadow: 0 0 0 8px rgba(182,245,66,0); } }
+    h1 {
+      font-family: var(--head);
+      font-size: clamp(54px, 9vw, 116px);
+      line-height: .98; letter-spacing: -.02em;
+      opacity: 0; animation: up .65s .2s forwards;
+    }
+    h1 .grad {
+      background: linear-gradient(135deg, var(--lime) 0%, var(--blue) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      margin-top: 24px; font-size: 17px; color: var(--muted);
+      max-width: 540px; line-height: 1.7;
+      opacity: 0; animation: up .6s .35s forwards;
+    }
+    .hero-btns {
+      display: flex; gap: 12px; flex-wrap: wrap; margin-top: 44px;
+      opacity: 0; animation: up .5s .5s forwards;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 26px; font-family: var(--font); font-size: 13px; font-weight: 700;
+      letter-spacing: .03em; text-decoration: none; cursor: pointer;
+      border: none; border-radius: 10px; transition: all .2s;
+    }
+    .btn-lime { background: var(--lime); color: #07090f; }
+    .btn-lime:hover { background: #cbff5a; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(182,245,66,.25); }
+    .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--muted); transform: translateY(-2px); }
+
+    /* ticker */
+    .ticker-wrap {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      border-top: 1px solid var(--border); overflow: hidden; padding: 13px 0;
+      background: rgba(7,9,15,.5);
+      opacity: 0; animation: fadein .5s 1s forwards;
+    }
+    .ticker-track {
+      display: flex; gap: 36px; width: max-content;
+      animation: scroll 28s linear infinite;
+      font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+    }
+    .ticker-track em { color: var(--lime); font-style: normal; }
+    @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── divider ── */
+    .divider { width: 100%; height: 1px; background: var(--border); }
+
+    /* ── sections ── */
+    .section { position: relative; z-index: 1; padding: 88px 56px; max-width: 1200px; margin: 0 auto; }
+    .s-label { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--lime); margin-bottom: 10px; }
+    .s-title { font-family: var(--head); font-size: clamp(30px, 4.5vw, 56px); line-height: 1.05; margin-bottom: 44px; }
+
+    /* ── about ── */
+    .about-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 64px; align-items: start; }
+    .about-body p { color: var(--muted); line-height: 1.85; margin-bottom: 14px; font-size: 15px; }
+    .about-body strong { color: var(--text); }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+    .chip {
+      font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 100px;
+      border: 1px solid var(--border); color: var(--muted); transition: all .2s; cursor: default;
+    }
+    .chip:hover { border-color: var(--lime); color: var(--lime); background: rgba(182,245,66,.06); }
+    .stats { display: flex; flex-direction: column; gap: 14px; }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      padding: 22px 26px; display: flex; align-items: center; gap: 20px;
+      transition: border-color .25s;
+    }
+    .stat-card:hover { border-color: rgba(182,245,66,.3); }
+    .stat-num { font-family: var(--head); font-size: 38px; color: var(--lime); line-height: 1; min-width: 60px; }
+    .stat-text { font-size: 13px; color: var(--muted); font-weight: 500; }
+
+    /* ── projects grid ── */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 18px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+      padding: 28px; display: flex; flex-direction: column; gap: 14px;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+      position: relative; overflow: hidden;
+    }
+    .card::after {
+      content: ''; position: absolute; inset: 0; border-radius: 16px;
+      background: radial-gradient(circle at top left, rgba(182,245,66,.06) 0%, transparent 65%);
+      opacity: 0; transition: opacity .3s;
+    }
+    .card:hover { border-color: rgba(182,245,66,.35); transform: translateY(-5px); box-shadow: 0 16px 48px rgba(0,0,0,.4); }
+    .card:hover::after { opacity: 1; }
+    .card-icon { font-size: 30px; line-height: 1; position: relative; z-index: 1; }
+    .card-title { font-family: var(--head); font-size: 20px; color: var(--text); position: relative; z-index: 1; }
+    .card-desc { font-size: 13px; color: var(--muted); line-height: 1.75; flex: 1; position: relative; z-index: 1; }
+    .card-stack { display: flex; flex-wrap: wrap; gap: 6px; position: relative; z-index: 1; }
+    .tag {
+      font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 100px;
+      background: rgba(79,163,255,.1); color: var(--blue); border: 1px solid rgba(79,163,255,.2);
+    }
+    .card-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 2px; position: relative; z-index: 1; }
+    .clink {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600; text-decoration: none;
+      padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border);
+      color: var(--muted); transition: all .2s;
+    }
+    .clink:hover { border-color: var(--lime); color: var(--lime); }
+    .clink.live { background: var(--lime); color: #07090f; border-color: var(--lime); }
+    .clink.live:hover { background: #cbff5a; border-color: #cbff5a; box-shadow: 0 4px 20px rgba(182,245,66,.3); }
+    .clink svg { width: 11px; height: 11px; flex-shrink: 0; }
+
+    /* ── footer ── */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 26px 56px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 12px; color: var(--muted);
+    }
+    footer a { color: var(--lime); text-decoration: none; font-weight: 600; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── animations ── */
+    @keyframes up { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+    @keyframes fadein { to { opacity: 1; } }
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      #hero, .section { padding-left: 20px; padding-right: 20px; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="blob b3"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">AD.</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="https://github.com/GlitchNinjaX" target="_blank">GitHub ↗</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="eyebrow"><span class="pulse"></span> High School Freshman &bull; Self-Taught Dev</div>
+  <h1>Abhiram<br><span class="grad">Duvvuri.</span></h1>
+  <p class="hero-sub">I'm a 9th grader who loves building things with code. I make websites and web apps from scratch — all HTML, CSS &amp; JavaScript, all me.</p>
+  <div class="hero-btns">
+    <a href="#projects" class="btn btn-lime">See My Projects ↓</a>
+    <a href="https://github.com/GlitchNinjaX" target="_blank" class="btn btn-ghost">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      GitHub Profile
+    </a>
+  </div>
+  <div class="ticker-wrap">
+    <div class="ticker-track">
+      <span>HTML &amp; CSS</span><em>✦</em><span>JavaScript</span><em>✦</em><span>Web APIs</span><em>✦</em>
+      <span>GitHub Pages</span><em>✦</em><span>Self-Taught</span><em>✦</em><span>9th Grade</span><em>✦</em>
+      <span>Open Source</span><em>✦</em><span>Always Learning</span><em>✦</em>
+      <span>HTML &amp; CSS</span><em>✦</em><span>JavaScript</span><em>✦</em><span>Web APIs</span><em>✦</em>
+      <span>GitHub Pages</span><em>✦</em><span>Self-Taught</span><em>✦</em><span>9th Grade</span><em>✦</em>
+      <span>Open Source</span><em>✦</em><span>Always Learning</span><em>✦</em>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+  <p class="s-label reveal">About Me</p>
+  <h2 class="s-title reveal">Who I am.</h2>
+  <div class="about-grid">
+    <div class="about-body reveal">
+      <p>Hey! I'm Abhiram — a high school freshman who got into coding and kind of never stopped. I build websites and web apps using <strong>HTML, CSS, and JavaScript</strong>, and I love making things that are actually useful.</p>
+      <p>Every project I've made started as something I wanted to exist. A typing speed test, a customizable Pomodoro timer, a full dictionary tool — I build stuff I'd use myself.</p>
+      <p>I'm always experimenting and picking up new skills. Check out what I've built below!</p>
+      <div class="chips">
+        <span class="chip">HTML</span>
+        <span class="chip">CSS</span>
+        <span class="chip">JavaScript</span>
+        <span class="chip">REST APIs</span>
+        <span class="chip">GitHub</span>
+        <span class="chip">GitHub Pages</span>
+      </div>
+    </div>
+    <div class="stats reveal">
+      <div class="stat-card">
+        <div class="stat-num">14</div>
+        <div class="stat-text">Public repositories on GitHub</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">6</div>
+        <div class="stat-text">Live deployed websites</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">9th</div>
+        <div class="stat-text">Grade — just getting started</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects" class="section">
+  <p class="s-label reveal">My Work</p>
+  <h2 class="s-title reveal">Projects.</h2>
+  <div class="projects-grid">
+
+    <!-- QuoteType — live site -->
+    <div class="card reveal">
+      <div class="card-icon">⌨️</div>
+      <div class="card-title">QuoteType</div>
+      <div class="card-desc">A typing speed test that fetches random quotes from an API and measures your WPM and accuracy in real time. How fast can you type?</div>
+      <div class="card-stack">
+        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">API</span>
+      </div>
+      <div class="card-links">
+        <a href="https://glitchninjax.github.io/quote-type/" target="_blank" class="clink live">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Live Site
+        </a>
+        <a href="https://github.com/GlitchNinjaX/quote-type" target="_blank" class="clink">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Repo
+        </a>
+      </div>
+    </div>
+
+    <!-- Expense Tracker — live site -->
+    <div class="card reveal">
+      <div class="card-icon">💸</div>
+      <div class="card-title">Expense Tracker</div>
+      <div class="card-desc">Track your spending by category, amount, and date. Entries get added to a live table with a running total so you always know where your money went.</div>
+      <div class="card-stack">
+        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span>
+      </div>
+      <div class="card-links">
+        <a href="https://glitchninjax.github.io/expense-tracker/" target="_blank" class="clink live">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Live Site
+        </a>
+        <a href="https://github.com/GlitchNinjaX/expense-tracker" target="_blank" class="clink">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Repo
+        </a>
+      </div>
+    </div>
+
+    <!-- Weather Website — repo only -->
+    <div class="card reveal">
+      <div class="card-icon">🌤️</div>
+      <div class="card-title">Weather Website</div>
+      <div class="card-desc">Search any city in the world and get live weather data — current temp, feels like, humidity, and a weather description, all powered by the OpenWeatherMap API.</div>
+      <div class="card-stack">
+        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">API</span>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/GlitchNinjaX/weather-website" target="_blank" class="clink">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          View Repo
+        </a>
+      </div>
+    </div>
+
+    <!-- Pomodoro Timer — live site -->
+    <div class="card reveal">
+      <div class="card-icon">🍅</div>
+      <div class="card-title">Pomodoro Timer</div>
+      <div class="card-desc">A fully customizable Pomodoro productivity timer. Set your own work and break durations, and pick from 3 different ringtones to keep you on track.</div>
+      <div class="card-stack">
+        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Audio</span>
+      </div>
+      <div class="card-links">
+        <a href="https://glitchninjax.github.io/pomodoro-timer/" target="_blank" class="clink live">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Live Site
+        </a>
+        <a href="https://github.com/GlitchNinjaX/pomodoro-timer" target="_blank" class="clink">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Repo
+        </a>
+      </div>
+    </div>
+
+    <!-- Password Generator — live site -->
+    <div class="card reveal">
+      <div class="card-icon">🔐</div>
+      <div class="card-title">Password Generator</div>
+      <div class="card-desc">Generate strong, secure passwords with full customization — choose length, include/exclude uppercase, lowercase, numbers, symbols, and even specific characters.</div>
+      <div class="card-stack">
+        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span>
+      </div>
+      <div class="card-links">
+        <a href="https://glitchninjax.github.io/password-generator/" target="_blank" class="clink live">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Live Site
+        </a>
+        <a href="https://github.com/GlitchNinjaX/password-generator" target="_blank" class="clink">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Repo
+        </a>
+      </div>
+    </div>
+
+    <!-- Dictionary Website — live site -->
+    <div class="card reveal">
+      <div class="card-icon">📖</div>
+      <div class="card-title">Dictionary Website</div>
+      <div class="card-desc">Look up any word and instantly get definitions, audio pronunciation, synonyms, and antonyms — all pulled from a free dictionary API.</div>
+      <div class="card-stack">
+        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">API</span>
+      </div>
+      <div class="card-links">
+        <a href="https://glitchninjax.github.io/dictionary-website/" target="_blank" class="clink live">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Live Site
+        </a>
+        <a href="https://github.com/GlitchNinjaX/dictionary-website" target="_blank" class="clink">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Repo
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <span>Built by <a href="https://github.com/GlitchNinjaX" target="_blank">Abhiram Duvvuri</a> &mdash; GlitchNinjaX</span>
+  <span>HTML &bull; CSS &bull; JavaScript</span>
+</footer>
+
+<script>
+  // Scroll reveal
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  els.forEach(el => obs.observe(el));
+
+  // Nav active links on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navAs = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
+    navAs.forEach(a => { a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--text)' : ''; });
+  });
+</script>
+</body>
+</html>
